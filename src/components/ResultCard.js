@@ -1,11 +1,27 @@
-import React, { useContext, useState } from 'react';
-import { Card, Row, Col, Table } from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import { Card, Row, Col, Table, Badge } from 'react-bootstrap';
 
 import AssetContext from '../context/AssetContext';
 
 const resultCard = (props) => {
 	// eslint-disable-next-line
-	const [fixed, setFixed, stocks, setStocks] = useContext(AssetContext);
+	// const [fixed, setFixed, stocks, setStocks] = useContext(AssetContext);
+	const [fixedAssets, setFixedAssets] = useState([]);
+	const [company, setCompany] = useState([]);
+
+	const previousFixed = useRef(props.fixed);
+	const previousStocks = useRef(props.stocks);
+
+	useEffect(() => {
+		if (previousFixed.current !== props.fixed || previousStocks.current !== props.stocks) {
+			setFixedAssets(props.fixed);
+			setCompany(props.stocks);
+			console.log("fixed: " + fixedAssets)
+		}
+		previousFixed.current = props.fixed;
+
+
+	}, [props.fixed, props.stocks])
 
 	return (
 		<Card body>
@@ -14,26 +30,41 @@ const resultCard = (props) => {
 			</Card.Title>
 			<br></br>
 			<hr></hr>
-			<br></br>
 			<section>
 				<Row>
 					<Col>
+						<p><Badge variant="secondary">Compounding assets</Badge></p>
 						<Table striped borderless hover size="sm" variant="secondary" responsive>
 							<thead>
 								<tr>
 									<th>
-										Compounding assets
-								</th>
+										#
+									</th>
+									<th>
+										Principle
+									</th>
+									<th>
+										length
+									</th>
+									<th>
+										End value
+									</th>
 								</tr>
 							</thead>
 							<tbody>
-								{fixed.map(asset => (
+								{fixedAssets.map((asset, index) => (
 									<tr>
+										<td>
+											{index + 1};
+										</td>
 										<td>
 											${asset.principle}
 										</td>
 										<td>
-											total: ${asset.endValue}
+											{asset.iLength} yrs
+										</td>
+										<td>
+											${asset.endValue}
 										</td>
 									</tr>))
 								}
@@ -41,16 +72,26 @@ const resultCard = (props) => {
 						</Table>
 					</Col>
 					<Col>
+						<p><Badge variant="secondary">Stocks</Badge></p>
 						<Table striped borderless hover size="sm" variant="secondary" responsive>
 							<thead>
 								<tr>
 									<th>
-										Stocks
-								</th>
+										#
+									</th>
+									<th>
+										Ticker
+									</th>
+									<th>
+										Market
+									</th>
+									<th>
+										Discounted
+									</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
+								{/* <tr>
 									<td>
 										Ticker
 								</td>
@@ -59,8 +100,8 @@ const resultCard = (props) => {
 								</td>
 									<td>
 										Discount price
-								</td>
-								</tr>
+								</td> */}
+								{/* </tr> */}
 							</tbody>
 						</Table>
 					</Col>

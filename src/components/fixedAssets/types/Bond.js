@@ -53,6 +53,9 @@ const bond = (props) => {
 				</Row>
 				<Form.Text className="text-muted">assumes the bond is not called</Form.Text>
 				<br></br>
+				<br></br>
+				<br></br>
+				<br></br>
 				<Button type="submit">Get result</Button>{"   "}
 				<Button variant="secondary" onClick={() => formClear()}>Clear form</Button>
 			</Form>

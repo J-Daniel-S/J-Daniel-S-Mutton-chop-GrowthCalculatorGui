@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 
 import { Form, Button } from 'react-bootstrap';
 
@@ -38,6 +38,9 @@ const cd = (props) => {
 						<option>Annually</option>
 					</Form.Control>
 				</Form.Group>
+				<br></br>
+				<br></br>
+				<br></br>
 				<br></br>
 				<br></br>
 				<Button type="submit">Get result</Button>{"   "}
