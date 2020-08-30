@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const opsCashFlow = (props) => {
 
@@ -10,6 +10,12 @@ const opsCashFlow = (props) => {
 	const getStock = (event) => {
 		props.getStock(event);
 	}
+
+	const renderTooltip = (props) => (
+		<Tooltip id="button-tooltip" {...props}>
+			Only enter a growth rate% here if you have a good reason to believe yours is correct
+		</Tooltip>
+	)
 
 	return (
 		<React.Fragment>
@@ -26,6 +32,17 @@ const opsCashFlow = (props) => {
 							<Form.Label>Desired MOS</Form.Label>
 							<Form.Control type="number" placeholder="%" required />
 						</Form.Group>
+					</Col>
+					<Col>
+						<OverlayTrigger
+							placement="top-end"
+							delay={{ show: 150, hide: 850 }}
+							overlay={renderTooltip}>
+							<Form.Group controlId="growth">
+								<Form.Label>Set cash flow growth rate</Form.Label>
+								<Form.Control type="number" placeholder="%" />
+							</Form.Group>
+						</OverlayTrigger>
 					</Col>
 				</Row>
 				<Row>

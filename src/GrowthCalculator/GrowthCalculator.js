@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './GrowthCalculator.css';
-import { Container, CardDeck } from 'react-bootstrap';
+import { Container, CardDeck, Card, Row, Col, Badge, Table } from 'react-bootstrap';
 import axios from 'axios';
 
 import FixedCard from '../components/fixedAssets/FixedCard';
 import StockCard from '../components/stocks/StockCard';
-// import ResultCard from '../components/ResultCard';
 import Navigation from '../components/Navigation';
 import AssetContext from '../context/AssetContext.js';
 import HowTo from '../components/HowTo';
@@ -16,7 +15,15 @@ const growthCalculator = (props) => {
 	const [stockState, setStockState] = useState([]);
 
 	const assets = [fixedState, setFixedState, stockState, setStockState];
-	const stocks = stockState;
+	
+	let stocks = stockState;
+	let fixed = fixedState;
+
+	useEffect(() => {
+		stocks = stockState;
+		fixed = fixedState;
+
+	}, [fixedState, stockState]);
 
 	const getResult = (event) => {
 		const form = event.currentTarget;
@@ -118,7 +125,7 @@ const growthCalculator = (props) => {
 					freeCashFlow: fcf
 				}
 
-				axios.post("http://localhost:8080/compound-calculator/stock", body, { headers })
+				axios.post("http://localhost:8080/compound-calculator/stock-fcf", body, { headers })
 					.then(res => {
 						stocks.push(res.data);
 						setStockState(stocks);
@@ -141,8 +148,8 @@ const growthCalculator = (props) => {
 				capex4 = form.capex4.value;
 				capex5 = form.capex5.value;
 
-				const cf = [ cf5, cf4, cf3, cf2, cf1];
-				const cf = [ capex5, capex4, capex3, capex2, capex1];
+				const cf = [cf5, cf4, cf3, cf2, cf1];
+				const capex = [capex5, capex4, capex3, capex2, capex1];
 
 				body = {
 					desiredReturn: roi,
@@ -152,6 +159,13 @@ const growthCalculator = (props) => {
 					cashFlows: cf,
 					capitalExpenditures: capex
 				}
+
+				axios.post("http://localhost:8080/compound-calculator/stock", body, { headers })
+					.then(res => {
+						stocks.push(res.data);
+						setStockState(stocks);
+						stockState.map(asset => console.log(asset));
+					});
 
 			}
 		}
@@ -171,8 +185,94 @@ const growthCalculator = (props) => {
 				<CardDeck>
 					<FixedCard getResult={getResult} />
 					<StockCard getStock={getStockPrice} />
-					{/* <ResultCard stock={stockState} fixed={fixedState} /> */}
 				</CardDeck>
+				<br></br>
+				<Container>
+				<Card body>
+					<Card.Title>
+						Result card
+						</Card.Title>
+					<br></br>
+					<hr></hr>
+					<section>
+						<Row>
+							<Col>
+								<p><Badge variant="secondary">Compounding assets</Badge></p>
+								<Table striped borderless hover size="sm" variant="secondary" responsive>
+									<thead>
+										<tr>
+											<th>
+												#
+												</th>
+											<th>
+												Principle
+												</th>
+											<th>
+												length
+												</th>
+											<th>
+												End value
+												</th>
+										</tr>
+									</thead>
+									<tbody>
+										{fixed.map((asset, index) => (
+											<tr>
+												<td>
+													{index + 1};
+													</td>
+												<td>
+													${asset.principle}
+												</td>
+												<td>
+													{asset.iLength} yrs
+													</td>
+												<td>
+													${asset.endValue}
+												</td>
+											</tr>))
+										}
+									</tbody>
+								</Table>
+							</Col>
+							<Col>
+								<p><Badge variant="secondary">Stocks</Badge></p>
+								<Table striped borderless hover size="sm" variant="secondary" responsive>
+									<thead>
+										<tr>
+											<th>
+												#
+												</th>
+											<th>
+												Ticker
+												</th>
+											<th>
+												Market
+												</th>
+											<th>
+												Discounted
+												</th>
+										</tr>
+									</thead>
+									<tbody>
+										{/* <tr>
+									<td>
+										Ticker
+								</td>
+									<td>
+										Fair price
+								</td>
+									<td>
+										Discount price
+								</td> */}
+										{/* </tr> */}
+									</tbody>
+								</Table>
+							</Col>
+						</Row>
+					</section>
+				</Card>
+				</Container>
 				<br></br>
 			</AssetContext.Provider>
 		</main>
