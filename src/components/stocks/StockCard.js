@@ -26,7 +26,7 @@ const stockCard = (props) => {
 			<Card.Link onClick={() => toggleNoFcf()} style={linkCursor}>Calculate free cash flow</Card.Link>
 			<hr></hr>
 			<br></br>
-			{fcf ? <Fcf getStock={props.getStock}/>: <OpsCashFlow getStock={props.getStock}/>}
+			{fcf ? <Fcf getStock={props.getStock} /> : <OpsCashFlow getStock={props.getStock} />}
 			<br></br>
 		</Card>
 	);
