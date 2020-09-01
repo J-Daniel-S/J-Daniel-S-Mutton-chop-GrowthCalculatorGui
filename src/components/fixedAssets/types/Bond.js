@@ -4,10 +4,6 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 
 const bond = (props) => {
 
-	const formClear = () => {
-		console.log('clear form');
-	}
-
 	return (
 		<React.Fragment>
 			<Form onSubmit={props.getResult}>
@@ -23,6 +19,7 @@ const bond = (props) => {
 							</Form.Label>
 					<Form.Control type="text" placeholder="%" required />
 				</Form.Group>
+				<br></br>
 				<Form.Group controlId="investmentLength">
 					<Form.Label>
 						Length to maturity
@@ -53,8 +50,10 @@ const bond = (props) => {
 				</Row>
 				<Form.Text className="text-muted">assumes the bond is not called</Form.Text>
 				<br></br>
+				<br></br>
+				<br></br>
+				<br></br>
 				<Button type="submit">Get result</Button>{"   "}
-				<Button variant="secondary" onClick={() => formClear()}>Clear form</Button>
 			</Form>
 		</React.Fragment>
 	);

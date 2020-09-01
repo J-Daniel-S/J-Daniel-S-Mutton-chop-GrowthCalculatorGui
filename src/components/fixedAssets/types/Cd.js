@@ -1,12 +1,8 @@
-import React  from 'react';
+import React from 'react';
 
 import { Form, Button } from 'react-bootstrap';
 
 const cd = (props) => {
-
-	const formClear = () => {
-		console.log('clear form');
-	}
 
 	return (
 		<React.Fragment>
@@ -23,6 +19,7 @@ const cd = (props) => {
 							</Form.Label>
 					<Form.Control type="text" placeholder="%" required />
 				</Form.Group>
+				<br></br>
 				<Form.Group controlId="investmentLength">
 					<Form.Label>
 						Length of investment
@@ -40,8 +37,10 @@ const cd = (props) => {
 				</Form.Group>
 				<br></br>
 				<br></br>
+				<br></br>
+				<br></br>
+				<br></br>
 				<Button type="submit">Get result</Button>{"   "}
-				<Button variant="secondary" onClick={() => formClear()}>Clear form</Button>
 			</Form>
 		</React.Fragment>
 	);
