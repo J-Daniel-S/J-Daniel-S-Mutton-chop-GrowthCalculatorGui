@@ -1,8 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Form, Button, Row, Col } from 'react-bootstrap';
 
 const bond = (props) => {
+	const [ price, setPrice ] = useState("");
+	const [ rate, setRate ] = useState("");
+	const [ length, setLength ] = useState("");
+	const [ number, setNumber ] = useState("");
+
+	const handleChange = input => event => {
+		switch (input) {
+			case "price":
+				setPrice(event.target.value);
+			break;
+			case "rate":
+				setRate(event.target.value);
+			break;
+			case "length":
+				setLength(event.target.value);
+				break;
+			case "number":
+				setNumber(event.target.value);
+				break;
+			default:
+				break;
+		}
+	}
+
+	const clearForm = () => {
+		setPrice("");
+		setRate("");
+		setLength("");
+		setNumber("");
+	}
+
 
 	return (
 		<React.Fragment>
@@ -11,20 +42,20 @@ const bond = (props) => {
 					<Form.Label>
 						Issue price
 							</Form.Label>
-					<Form.Control type="text" placeholder="per bond" required />
+					<Form.Control type="text" placeholder="per bond" required value={price} onChange={handleChange("price")}/>
 				</Form.Group>
 				<Form.Group controlId="rate">
 					<Form.Label>
 						Interest rate
 							</Form.Label>
-					<Form.Control type="text" placeholder="%" required />
+					<Form.Control type="text" placeholder="%" required value={rate} onChange={handleChange("rate")} />
 				</Form.Group>
 				<br></br>
 				<Form.Group controlId="investmentLength">
 					<Form.Label>
 						Length to maturity
 								</Form.Label>
-					<Form.Control type="input" placeholder="in months" required />
+					<Form.Control type="input" placeholder="in months" required value={length} onChange={handleChange("length")} />
 				</Form.Group>
 				<Row>
 					<Col>
@@ -43,7 +74,7 @@ const bond = (props) => {
 							<Form.Label>
 								Number purchased
 							</Form.Label>
-							<Form.Control type="number" placeholder="#" required>
+							<Form.Control type="number" placeholder="#" required value={number} onChange={handleChange("number")}>
 							</Form.Control>
 						</Form.Group>
 					</Col>
@@ -54,6 +85,7 @@ const bond = (props) => {
 				<br></br>
 				<br></br>
 				<Button type="submit">Get result</Button>{"   "}
+				<Button variant="secondary" onClick={() => clearForm()}>Clear form</Button>
 			</Form>
 		</React.Fragment>
 	);
